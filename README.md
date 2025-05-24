@@ -1,7 +1,8 @@
 # 🍎 peel-web
 
 **peelweb** é um framework web leve e minimalista feito para Java, ideal para aplicações embarcadas ou com recursos limitados.  
-Ele fornece uma camada portátil e expressiva para a criação de aplicações web e servidores HTTP rápidos, sem depender de grandes servidores ou containers.
+
+Fornece uma camada portátil e expressiva para a criação de aplicações web e servidores HTTP rápidos, sem depender de grandes servidores ou containers.
 
 - ⚡ **Leve e rápido**: sem dependência de servidores pesados.
 - 📦 **Portável**: roda em qualquer dispositivo com Java, de embarcados a desktops.
@@ -57,7 +58,7 @@ public class MyController {
         Integer productId = request.getPathVariableAsInteger("productId");
 
         // Obter arquivo enviado.
-        var file = request.getFileEntry("file");
+        FileEntry file = request.getFileEntry("file");
 
         // Construir resposta simples com os dados coletados
         String msg = String.format(
