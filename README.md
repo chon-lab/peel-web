@@ -47,13 +47,39 @@ public class Application {
 @Controller("/test")
 public class MyController {
 
-    @Mapping("/hello-world")
-    public Response get(Request request) {
-        return Responses.ok(Arrays.asList("Hello", "World!"));
+    @Mapping("/process/{orderId}/{productId}")
+    public Response processRequest(Request request) {
+        // Obter corpo da requisição como objeto MyBody
+        MyBody body = request.getBodyAs(MyBody.class);
+
+        // Obter parâmetros de query
+        String user = request.getParameter("user");
+        Integer count = request.getParameterAsInteger("count");
+
+        // Obter path variables
+        String orderId = request.getPathVariable("orderId");
+        Integer productId = request.getPathVariableAsInteger("productId");
+
+        // Obter arquivo enviado
+        var file = request.getFileEntry("file");
+
+        // Construir resposta simples com os dados coletados
+        String msg = String.format(
+            "User: %s, Count: %d, OrderId: %s, ProductId: %d, Body name: %s, File name: %s",
+            user,
+            count,
+            orderId,
+            productId,
+            body != null ? body.getName() : "null",
+            file != null ? file.getFileName() : "no file"
+        );
+
+        return Responses.ok(Arrays.asList(msg));
     }
 
     @Mapping("/hello-world/static")
     public Response index(Request request) {
+        // Mapeando conteúdo estático.
         return Responses.page("index.html");
     }
 
