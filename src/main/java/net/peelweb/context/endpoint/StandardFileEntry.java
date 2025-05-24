@@ -26,7 +26,8 @@ public class StandardFileEntry implements FileEntry {
         return this.size;
     }
 
-    public HttpContentType getHttpContentType() {
+    @Override
+    public HttpContentType getContentType() {
         return this.httpContentType;
     }
 
