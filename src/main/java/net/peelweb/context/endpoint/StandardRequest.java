@@ -4,7 +4,6 @@ import lombok.Getter;
 import net.peelweb.enums.HttpMethod;
 import net.peelweb.exception.InvalidJsonFormatException;
 import net.peelweb.json.JsonConverterManager;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,7 +53,7 @@ public class StandardRequest implements Request {
                 return JsonConverterManager.getInstance().getConverter().fromJson(this.body.toString(), tClass);
             }
 
-            throw new NotImplementedException();
+            throw new RuntimeException();
         } catch (InvalidJsonFormatException e) {
             return null;
         }

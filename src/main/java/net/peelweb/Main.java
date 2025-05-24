@@ -9,7 +9,6 @@ public class Main {
                 .staticContentPath("src/main/resources/net/peelweb/static")
                 .addController(new TestController())
         );
-
         app.start();
     }
 
