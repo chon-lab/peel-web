@@ -1,4 +1,4 @@
-# 🍎 peelweb
+# 🍎 peel-web
 
 **peelweb** é um framework web leve e minimalista feito para Java, ideal para aplicações embarcadas ou com recursos limitados.  
 Ele fornece uma camada portátil e expressiva para a criação de aplicações web e servidores HTTP rápidos, sem depender de grandes servidores ou containers.
