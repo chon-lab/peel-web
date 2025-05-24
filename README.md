@@ -48,19 +48,19 @@ public class Application {
 public class MyController {
 
     @Mapping("/process/{orderId}/{productId}")
-    public Response processRequest(Request request) {
-        // Obter corpo da requisição como objeto MyBody
+    public Response process(Request request) {
+        // Obter corpo da requisição como objeto customizado.
         MyBody body = request.getBodyAs(MyBody.class);
 
-        // Obter parâmetros de query
+        // Obter parâmetros de consulta.
         String user = request.getParameter("user");
         Integer count = request.getParameterAsInteger("count");
 
-        // Obter path variables
+        // Obter variáveis de caminho de URI.
         String orderId = request.getPathVariable("orderId");
         Integer productId = request.getPathVariableAsInteger("productId");
 
-        // Obter arquivo enviado
+        // Obter arquivo enviado.
         var file = request.getFileEntry("file");
 
         // Construir resposta simples com os dados coletados
