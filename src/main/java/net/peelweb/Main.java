@@ -7,7 +7,7 @@ public class Main {
                 .context("/peel")
                 .port(8080)
                 .staticContentPath("src/main/resources/net/peelweb/static")
-                .addController(new TestController())
+                .addController(new HelloWorldController())
         );
         app.start();
     }

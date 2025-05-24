@@ -9,7 +9,7 @@ import net.peelweb.context.endpoint.Responses;
 import java.util.Arrays;
 
 @Controller("/test")
-public class TestController {
+public class HelloWorldController {
 
     @Mapping("/hello-world")
     public Response get(Request request) {
