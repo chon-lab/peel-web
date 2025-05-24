@@ -30,10 +30,32 @@ Ele fornece uma camada portátil e expressiva para a criação de aplicações w
 ```java
 public class Application {
     public static void main(String[] args) {
-        new PeelApplicationBuilder()
-            .contextPath("/api")
-            .port(8080)
-            .registerController(new MyController())
-            .start();
+        PeelApp app = PeelAppBuilder.run(builder -> builder
+                .context("/peel")
+                .port(8080)
+                .staticContentPath("src/main/resources/net/peelweb/static")
+                .addController(new MyController())
+        );
+        app.start();
     }
 }
+```
+
+### 🚀 Criação de uma `controladora`
+
+```java
+@Controller("/test")
+public class MyController {
+
+    @Mapping("/hello-world")
+    public Response get(Request request) {
+        return Responses.ok(Arrays.asList("Hello", "World!"));
+    }
+
+    @Mapping("/hello-world/static")
+    public Response index(Request request) {
+        return Responses.page("index.html");
+    }
+
+}
+```
