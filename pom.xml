@@ -5,8 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.peelweb</groupId>
-    <artifactId>core</artifactId>
+    <artifactId>peelweb-core</artifactId>
     <version>0.1.0</version>
+
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

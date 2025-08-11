@@ -96,7 +96,7 @@ public class WebUtils {
     public static Map<String, String> getQueryParameters(String URI) {
         String[] querySplit = URI.split("\\?");
         if (querySplit.length == 1) {
-            return null;
+            return new HashMap<>();
         }
 
         Map<String, String> parameters = new HashMap<>();

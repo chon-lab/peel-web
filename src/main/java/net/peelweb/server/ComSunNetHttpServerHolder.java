@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -99,8 +100,13 @@ public class ComSunNetHttpServerHolder implements HttpServerHolder {
                 }
 
                 Map<String, String> queryParameters = WebUtils.getQueryParameters(exchange.getRequestURI().toString());
-                Map<String, Object> formData = WebUtils.getFormData(exchange.getRequestBody(),
-                        exchange.getRequestHeaders().get(HttpHeader.CONTENT_TYPE.getName()).get(0));
+                List<String> contentType = exchange.getRequestHeaders().get(HttpHeader.CONTENT_TYPE.getName());
+                Map<String, Object> formData;
+                if (contentType != null && !contentType.isEmpty()) {
+                    formData = WebUtils.getFormData(exchange.getRequestBody(), contentType.get(0));
+                } else {
+                    formData = new HashMap<>();
+                }
 
                 StandardRequest standardRequest = new StandardRequest(HttpMethod.get(requestMethod),
                         exchange.getRequestURI().toString(), this.getRequestBody(exchange), queryParameters, formData);
