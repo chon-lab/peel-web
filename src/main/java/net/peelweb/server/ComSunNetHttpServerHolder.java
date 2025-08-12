@@ -142,8 +142,8 @@ public class ComSunNetHttpServerHolder implements HttpServerHolder {
                 OutputStream outputBody = exchange.getResponseBody();
                 byte[] body = responseAssembler.assembly(response.getBody()).getBytes(StandardCharsets.UTF_8);
 
-                exchange.getResponseHeaders().add(HttpHeader.CONTENT_TYPE.getName() + ";charset=utf-8",
-                        response.getHttpContentType().getName());
+                exchange.getResponseHeaders().add(HttpHeader.CONTENT_TYPE.getName(),
+                        response.getHttpContentType().getName() + ";charset=utf-8");
                 exchange.sendResponseHeaders(response.getResponseCode().getNumber(), body.length);
 
                 outputBody.write(body);
