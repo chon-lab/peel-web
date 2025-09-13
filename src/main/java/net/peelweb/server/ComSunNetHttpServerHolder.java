@@ -121,7 +121,6 @@ public class ComSunNetHttpServerHolder implements HttpServerHolder {
                         response = endpoint.getHandler().execute(standardRequest);
                     } catch (Exception e) {
                         response = Responses.mount(HttpResponseCode.INTERNAL_SERVER_ERROR);
-                        e.printStackTrace();
                     }
 
                     if (response == null) {
