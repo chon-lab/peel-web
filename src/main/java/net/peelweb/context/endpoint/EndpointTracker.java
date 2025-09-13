@@ -42,7 +42,9 @@ public class EndpointTracker {
     }
 
     private boolean matches(Endpoint endpoint, String requestUri) {
-        requestUri = requestUri.substring(requestUri.indexOf(this.contextPath) + this.contextPath.length());
+        if (this.contextPath != null && !this.contextPath.isEmpty()) {
+            requestUri = requestUri.substring(requestUri.indexOf(this.contextPath) + this.contextPath.length());
+        }
 
         requestUri = getPureResourceMapping(requestUri);
         String completeMapping = getPureResourceMapping(this.resourceContext.getBaseMapping()) + getPureResourceMapping(

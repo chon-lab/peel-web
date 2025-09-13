@@ -36,6 +36,8 @@ public class ComSunNetHttpServerHolder implements HttpServerHolder {
 
     private final String staticContentPath;
 
+    private final boolean isExternalStaticContent;
+
     private HttpServer httpServer;
 
     private String getRequestBody(HttpExchange exchange) throws IOException {
@@ -83,7 +85,8 @@ public class ComSunNetHttpServerHolder implements HttpServerHolder {
         this.httpServer.setExecutor(Executors.newCachedThreadPool());
         this.httpServer.start();
 
-        final ResponseAssemblerFactory responseAssemblerFactory = new ResponseAssemblerFactory(this.staticContentPath);
+        final ResponseAssemblerFactory responseAssemblerFactory = new ResponseAssemblerFactory(this.staticContentPath,
+                this.isExternalStaticContent);
 
         for (ResourceContext resourceContext : this.resourceContexts) {
             EndpointTracker endpointTracker = new EndpointTracker(resourceContext, this.contextPath);

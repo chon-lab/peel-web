@@ -19,6 +19,8 @@ public class PeelAppBuilder {
 
     private int port;
 
+    private boolean isExternalStaticContent;
+
     public PeelAppBuilder() {
         this.resourceContexts = new ArrayList<>();
     }
@@ -54,9 +56,14 @@ public class PeelAppBuilder {
         return this;
     }
 
+    public PeelAppBuilder isExternalStaticContent() {
+        this.isExternalStaticContent = true;
+        return this;
+    }
+
     private PeelApp build() {
         HttpServerHolder httpServerHolder = HttpServerHolderFactory.release(this.resourceContexts,
-                this.staticContentPath, this.contextPath, this.port);
+                this.staticContentPath, this.isExternalStaticContent, this.contextPath, this.port);
         return new PeelApp(httpServerHolder);
     }
 
