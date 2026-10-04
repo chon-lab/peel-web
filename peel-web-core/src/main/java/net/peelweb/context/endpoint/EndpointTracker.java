@@ -14,12 +14,9 @@ public class EndpointTracker {
 
     private final String contextPath;
 
-    private final Map<String, String> pathVariables;
-
     public EndpointTracker(ResourceContext resourceContext, String contextPath) {
         this.resourceContext = resourceContext;
         this.contextPath = contextPath;
-        this.pathVariables = new HashMap<>();
     }
 
     public Endpoint find(StandardRequest standardRequest) {
@@ -28,12 +25,13 @@ public class EndpointTracker {
                 continue;
             }
 
-            boolean mappingMatches = this.matches(endpoint, standardRequest.getUri());
+            Map<String, String> pathVariables = new HashMap<>();
+            boolean mappingMatches = this.matches(endpoint, standardRequest.getUri(), pathVariables);
             if (!mappingMatches) {
                 continue;
             }
 
-            standardRequest.setPathVariables(this.pathVariables);
+            standardRequest.setPathVariables(pathVariables);
 
             return endpoint;
         }
@@ -41,7 +39,7 @@ public class EndpointTracker {
         return null;
     }
 
-    private boolean matches(Endpoint endpoint, String requestUri) {
+    private boolean matches(Endpoint endpoint, String requestUri, Map<String, String> pathVariables) {
         if (this.contextPath != null && !this.contextPath.isEmpty()) {
             requestUri = requestUri.substring(requestUri.indexOf(this.contextPath) + this.contextPath.length());
         }
@@ -66,10 +64,12 @@ public class EndpointTracker {
             String requestUriComponent = requestUriComponents[i];
 
             String pathVariable = getPathVariable(completeMappingComponent);
-            if (pathVariable == null && !requestUriComponent.equals(completeMappingComponent)) {
-                return false;
+            if (pathVariable == null) {
+                if (!requestUriComponent.equals(completeMappingComponent)) {
+                    return false;
+                }
             } else {
-                this.pathVariables.put(pathVariable, requestUriComponent);
+                pathVariables.put(pathVariable, requestUriComponent);
             }
         }
 

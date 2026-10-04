@@ -6,17 +6,19 @@ import net.peelweb.context.endpoint.Request;
 import net.peelweb.context.endpoint.Response;
 import net.peelweb.context.endpoint.Responses;
 
+import java.util.Map;
+
 @Controller
 public class DemoController {
 
     @Mapping("/health")
     public Response health(Request request) {
-        return Responses.ok("UP");
+        return Responses.ok(Map.of("status", "UP"));
     }
 
     @Mapping("/demo/hello")
     public Response hello(Request request) {
-        return Responses.ok("Hello from Peel Web");
+        return Responses.ok(Map.of("message", "Hello from Peel Web"));
     }
 
     @Mapping("/demo/static")

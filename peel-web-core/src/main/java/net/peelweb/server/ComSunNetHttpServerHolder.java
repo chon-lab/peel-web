@@ -22,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
@@ -39,6 +40,8 @@ public class ComSunNetHttpServerHolder implements HttpServerHolder {
     private final boolean isExternalStaticContent;
 
     private HttpServer httpServer;
+
+    private ExecutorService executorService;
 
     private String getRequestBody(HttpExchange exchange) throws IOException {
         try (ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -82,7 +85,8 @@ public class ComSunNetHttpServerHolder implements HttpServerHolder {
             throw new RuntimeException(e);
         }
 
-        this.httpServer.setExecutor(Executors.newCachedThreadPool());
+        this.executorService = Executors.newCachedThreadPool();
+        this.httpServer.setExecutor(this.executorService);
         this.httpServer.start();
 
         final ResponseAssemblerFactory responseAssemblerFactory = new ResponseAssemblerFactory(this.staticContentPath,
@@ -156,6 +160,13 @@ public class ComSunNetHttpServerHolder implements HttpServerHolder {
 
     @Override
     public void stop() {
-        this.httpServer.stop(0);
+        if (this.httpServer != null) {
+            this.httpServer.stop(0);
+            this.httpServer = null;
+        }
+        if (this.executorService != null) {
+            this.executorService.shutdownNow();
+            this.executorService = null;
+        }
     }
 }
