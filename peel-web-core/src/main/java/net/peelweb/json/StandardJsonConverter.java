@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class StandardJsonConverter implements JsonConverter {
 
@@ -202,10 +203,6 @@ public class StandardJsonConverter implements JsonConverter {
                     throw new RuntimeException(e);
                 }
 
-                if (value == null) {
-                    continue;
-                }
-
                 if (!firstField) {
                     json.append(",");
                 }
@@ -239,15 +236,35 @@ public class StandardJsonConverter implements JsonConverter {
         return json.toString();
     }
 
+    private String serializeMap(Map<?, ?> map) {
+        StringBuilder json = new StringBuilder();
+        json.append("{");
+
+        boolean firstEntry = true;
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            if (!firstEntry) {
+                json.append(",");
+            }
+            json.append("\"").append(this.escapeString(String.valueOf(entry.getKey()))).append("\":");
+            json.append(this.serializeValue(entry.getValue()));
+            firstEntry = false;
+        }
+
+        json.append("}");
+        return json.toString();
+    }
+
     private String serializeValue(Object value) {
         if (value == null) {
-            return null;
+            return "null";
         } else if (value instanceof String) {
             return "\"" + this.escapeString((String) value) + "\"";
         } else if (value instanceof Number || value instanceof Boolean) {
             return value.toString();
         } else if (value instanceof List) {
             return serializeArray(((List<?>) value).toArray());
+        } else if (value instanceof Map) {
+            return serializeMap((Map<?, ?>) value);
         } else if (value.getClass().isArray()) {
             return serializeArray(value);
         } else if (value instanceof Date) {
